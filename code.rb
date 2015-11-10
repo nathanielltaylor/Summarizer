@@ -41,7 +41,7 @@ def summarize(input)
 
   max_score = scores.max_by { |k,v| v }[1]
   scores.delete_if {|k,v| v <= (max_score / 2)}
-  scores.keys.flatten.join(" ")
+  scores.keys.flatten.join("\n")
 end
 
 isis = File.read("articles/isis.txt")
