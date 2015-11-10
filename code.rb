@@ -15,11 +15,12 @@ def summarize(input)
   if keywords == nil
     keywords = all_words.select { |e| all_words.count(e) > 2 && e.length > 3 }.uniq!
   end
-  keywords.delete_if { |w| /(have|this|with|just|your|when|from|that|were|much|here|there|their|they)/i.match(w) }
+  keywords.delete_if do |w|
+    /(have|this|with|just|your|when|from|that|were|much|here|there|their|they)/i.match(w)
+  end
 
   scores = {}
   paragraphs = input.split("\n")
-  sentence_count = 0
 
   paragraphs.each do |paragraph|
     sentences = paragraph.split(". ")
@@ -36,7 +37,6 @@ def summarize(input)
       end
       scores[sentence] = sentence_score
     end
-    sentence_count += 1
   end
 
   max_score = scores.max_by { |k,v| v }[1]
@@ -45,9 +45,10 @@ def summarize(input)
 end
 
 isis = File.read("articles/isis.txt")
-gop = File.read("articles/candidates.txt")
-football = File.read("articles/football.txt")
-
 File.write('article_outputs/isis_result.txt', summarize(isis))
+
+gop = File.read("articles/candidates.txt")
 File.write('article_outputs/gop_result.txt', summarize(gop))
+
+football = File.read("articles/football.txt")
 File.write('article_outputs/football_result.txt', summarize(football))
